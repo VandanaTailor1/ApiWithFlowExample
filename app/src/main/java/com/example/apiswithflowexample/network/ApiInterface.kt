@@ -5,7 +5,7 @@ import retrofit2.http.GET
 
 interface ApiInterface {
 
-    @GET("apod")
+    @GET("random")
     suspend fun getApodData(): ApodResponse
 
 }

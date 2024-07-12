@@ -16,19 +16,24 @@ class ApodRepositry @Inject constructor(private val apiInterface: ApiInterface) 
 
     fun getApod(): Flow<ApiResponseCallBack<ApodResponse>> = flow {
         emit(ApiResponseCallBack.loading())
+       // val response = apiInterface.getApodData()
         emit(ApiResponseCallBack.Success(apiInterface.getApodData()))
     }.catch { e ->
         Log.d("222", "~~~it.message~fail~" + e)
-        var errorcode = 0
+        Log.d("222", "~~~it.message~fail~$e")
         val errorMessage = when (e) {
             is HttpException -> {
-                errorcode = e.code()
+                when (e.code()) {
+                    401 -> "Unauthorized: ${e.message}"
+                    403 -> "Forbidden: ${e.message}"
+                    404 -> "Not Found: ${e.message}"
+                    else -> "HTTP error: ${e.code()}"
+                }
             }
-
-            else -> "Failed: ${e.message}"
+            is java.net.UnknownHostException -> "Unknown host: ${e.message}"
+            else -> "Unknown error: ${e.message}"
         }
-
-        Log.d("222", "~errorMessage~~~" + errorMessage.toString())
+        Log.d("222", "~errorMessage~~~$errorMessage")
         emit(ApiResponseCallBack.failed(errorMessage.toString()/*,errorcode*/))
     }.flowOn(Dispatchers.IO)
 

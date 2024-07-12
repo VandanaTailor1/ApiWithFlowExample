@@ -63,4 +63,6 @@ dependencies {
     implementation(libs.converter.gson)
     implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:$viewmodel_version")
+
+    implementation ("com.squareup.okhttp3:logging-interceptor:4.9.3")
 }
