@@ -18,7 +18,6 @@ class ApodRepositry @Inject constructor(private val apiInterface: ApiInterface) 
         emit(ApiResponseCallBack.loading())
         emit(ApiResponseCallBack.Success(apiInterface.getApodData()))
     }.catch { e ->
-        Log.d("222", "~~~it.message~fail~" + e)
         Log.d("222", "~~~it.message~fail~$e")
         val errorMessage = when (e) {
             is HttpException -> {
@@ -29,6 +28,7 @@ class ApodRepositry @Inject constructor(private val apiInterface: ApiInterface) 
                     else -> "HTTP error: ${e.code()}"
                 }
             }
+
             is java.net.UnknownHostException -> "Unknown host: ${e.message}"
             else -> "Unknown error: ${e.message}"
         }
