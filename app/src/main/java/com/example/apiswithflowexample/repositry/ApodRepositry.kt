@@ -16,7 +16,6 @@ class ApodRepositry @Inject constructor(private val apiInterface: ApiInterface) 
 
     fun getApod(): Flow<ApiResponseCallBack<ApodResponse>> = flow {
         emit(ApiResponseCallBack.loading())
-       // val response = apiInterface.getApodData()
         emit(ApiResponseCallBack.Success(apiInterface.getApodData()))
     }.catch { e ->
         Log.d("222", "~~~it.message~fail~" + e)
